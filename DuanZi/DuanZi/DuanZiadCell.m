@@ -89,7 +89,7 @@
     
      DuanZiAd *adModel = [DuanZiAd modelObjectWithDictionary:adPc.dictData[@"ad"]];
     
-    NSLog(@"celllllllllllllll%@",adModel.avatarName);
+//    NSLog(@"celllllllllllllll%@",adModel.avatarName);
     
     
     

@@ -41,8 +41,7 @@
     CGRect categoryRect = [group.categoryName boundingRectWithSize:CGSizeMake(LONG_MAX, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12]} context:nil];
   
     _rectBtnCategory = CGRectMake(15, CGRectGetMaxY(_rectContent)+10, categoryRect.size.width + 10, 20);
-//***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
-    //神评坐标
+//****************************************************************************************************************************************************************************************    //神评坐标
 
 
     _arrayComment =dictData[@"comments"];
@@ -102,7 +101,7 @@
     NSDictionary *dictComment = _arrayComment[0];
     DuanZiComments *comments = [DuanZiComments modelObjectWithDictionary:dictComment];
     
-    NSLog(@"11111111111111111111111111111111111%@",comments.text);
+//    NSLog(@"11111111111111111111111111111111111%@",comments.text);
     
     //评论内容
     CGRect rectOne = [comments.text boundingRectWithSize:CGSizeMake(WIDTH - 90, LONG_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil];
@@ -128,8 +127,6 @@
     _rectLabCommendOne = CGRectMake(_rectViewCommentsOne.size.width - 50, 23, 50, 10);
     
     
-    
-
 }
 //神评Two   赋值坐标
 -(void)viewCommentsTwo
@@ -163,6 +160,10 @@
     _rectViewComments = CGRectMake(10, CGRectGetMaxY(_rectBtnCategory) + 10, WIDTH - 20, 10 + CGRectGetMaxY(_rectViewCommentsTwo));
 
 }
+
+
+
+
 @end
 
 

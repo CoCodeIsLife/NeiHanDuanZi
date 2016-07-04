@@ -68,8 +68,8 @@
         //        神评视图****************************************************************************************************************
         
         _viewComments = [[UIView alloc]init];
-//        _viewComments.backgroundColor = [UIColor colorWithHexString:@"#f8f8f8"];
-        _viewComments.backgroundColor = [UIColor redColor];
+        _viewComments.backgroundColor = [UIColor colorWithHexString:@"#f8f8f8"];
+//        _viewComments.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:_viewComments];
         
         
@@ -95,7 +95,7 @@
         //赞
         _buttonCommendOne = [[UIButton alloc]init];
         [_viewCommentsOne addSubview:_buttonCommendOne];
-        [_buttonCommendOne setBackgroundImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
+        [_buttonCommendOne setImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
         //赞个数
         _labelCommendOne = [[UILabel alloc]init];
         [_viewCommentsOne addSubview:_labelCommendOne];
@@ -108,7 +108,7 @@
         [_viewCommentsOne addSubview:_labelContentOne];
         _labelContentOne.font = [UIFont systemFontOfSize:15];
         _labelContentOne.textColor = [UIColor colorWithHexString:@"#707070"];
-        _labelContentOne.backgroundColor = [UIColor greenColor];
+//        _labelContentOne.backgroundColor = [UIColor greenColor];
         _labelContentOne.numberOfLines = 0;
         
         
@@ -135,7 +135,7 @@
         //赞数
         _buttonCommendTwo = [[UIButton alloc]init];
         [_viewCommentsTwo addSubview:_buttonCommendTwo];
-        [_buttonCommendTwo setBackgroundImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
+        [_buttonCommendTwo setImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
         
         _labelCommendTwo = [[UILabel alloc]init];
         [_viewCommentsTwo addSubview:_labelCommendTwo];
@@ -149,7 +149,7 @@
         _labelContentTwo.font = [UIFont systemFontOfSize:15];
         _labelContentTwo.textColor = [UIColor colorWithHexString:@"#707070"];
         _labelContentTwo.numberOfLines = 0;
-        _labelContentTwo.backgroundColor = [UIColor greenColor];
+//        _labelContentTwo.backgroundColor = [UIColor greenColor];
         
         //**************************************************************************************************************************************************
         
@@ -163,24 +163,24 @@
         
         //赞
         _buttonCommend = [[UIButton alloc]init];
-        [_buttonCommend setBackgroundImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
+//        [_buttonCommend setImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
         [_viewBig addSubview:_buttonCommend];
-        //        _buttonCommend.backgroundColor = [UIColor greenColor];
+       
         
         _labelCommend = [[UILabel alloc]init];
         _labelCommend.font = [UIFont systemFontOfSize:10];
-        _labelCommend.textColor = [UIColor colorWithHexString:@"#cccccc"];
+//        _labelCommend.textColor = [UIColor colorWithHexString:@"#cccccc"];
         [_viewBig addSubview:_labelCommend];
         //        _labelCommend.backgroundColor = [UIColor redColor];
         
         //踩
         _buttonStep = [[UIButton alloc]init];
         [_viewBig addSubview:_buttonStep];
-        [_buttonStep setBackgroundImage:[UIImage imageNamed:@"step_pop"] forState:UIControlStateNormal];
+//        [_buttonStep setImage:[UIImage imageNamed:@"step_pop"] forState:UIControlStateNormal];
         
         _labelStep = [[UILabel alloc]init];
         _labelStep.font = [UIFont systemFontOfSize:10];
-        _labelStep.textColor = [UIColor colorWithHexString:@"#cccccc"];
+//        _labelStep.textColor = [UIColor colorWithHexString:@"#cccccc"];
         [_viewBig addSubview:_labelStep];
         
         
@@ -213,6 +213,7 @@
         [_viewBig addSubview:_viewColor];
         
     }
+    
     return self;
 }
 
@@ -383,7 +384,7 @@
 {
     //评论内容
     _labelContentTwo.text = commentsTwo.text;
-    NSLog(@"comment ++====%@",commentsTwo.text);
+//    NSLog(@"comment ++====%@",commentsTwo.text);
     
     //用户昵称
     [_buttonNameTwo setTitle:commentsTwo.userName forState:UIControlStateNormal];
