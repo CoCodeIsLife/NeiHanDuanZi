@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08004BD21D2BAF1E0065AD0E /* ViewDislikeReasen.m in Sources */ = {isa = PBXBuildFile; fileRef = 08004BD11D2BAF1E0065AD0E /* ViewDislikeReasen.m */; };
+		08004BD71D2BB9BE0065AD0E /* dislike_not-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08004BD31D2BB9BE0065AD0E /* dislike_not-selected@2x.png */; };
+		08004BD81D2BB9BE0065AD0E /* dislike_not-selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08004BD41D2BB9BE0065AD0E /* dislike_not-selected@3x.png */; };
+		08004BD91D2BB9BE0065AD0E /* dislike_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08004BD51D2BB9BE0065AD0E /* dislike_selected@2x.png */; };
+		08004BDA1D2BB9BE0065AD0E /* dislike_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 08004BD61D2BB9BE0065AD0E /* dislike_selected@3x.png */; };
 		081228611D22B9DA0093BF06 /* TableViewControllerZhiBo.m in Sources */ = {isa = PBXBuildFile; fileRef = 081228601D22B9D90093BF06 /* TableViewControllerZhiBo.m */; };
 		081228641D22B9F90093BF06 /* TableViewControllerTuiJian.m in Sources */ = {isa = PBXBuildFile; fileRef = 081228631D22B9F90093BF06 /* TableViewControllerTuiJian.m */; };
 		081228671D22BA0F0093BF06 /* TableViewControllerShiPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 081228661D22BA0F0093BF06 /* TableViewControllerShiPin.m */; };
@@ -101,6 +106,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08004BD01D2BAF1E0065AD0E /* ViewDislikeReasen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewDislikeReasen.h; sourceTree = "<group>"; };
+		08004BD11D2BAF1E0065AD0E /* ViewDislikeReasen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewDislikeReasen.m; sourceTree = "<group>"; };
+		08004BD31D2BB9BE0065AD0E /* dislike_not-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dislike_not-selected@2x.png"; sourceTree = "<group>"; };
+		08004BD41D2BB9BE0065AD0E /* dislike_not-selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dislike_not-selected@3x.png"; sourceTree = "<group>"; };
+		08004BD51D2BB9BE0065AD0E /* dislike_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dislike_selected@2x.png"; sourceTree = "<group>"; };
+		08004BD61D2BB9BE0065AD0E /* dislike_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dislike_selected@3x.png"; sourceTree = "<group>"; };
 		0812285F1D22B9D90093BF06 /* TableViewControllerZhiBo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewControllerZhiBo.h; sourceTree = "<group>"; };
 		081228601D22B9D90093BF06 /* TableViewControllerZhiBo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewControllerZhiBo.m; sourceTree = "<group>"; };
 		081228621D22B9F90093BF06 /* TableViewControllerTuiJian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewControllerTuiJian.h; sourceTree = "<group>"; };
@@ -289,6 +300,8 @@
 				089968FD1D27DECD00980F63 /* DuanZiadCell.m */,
 				0899691E1D27E74C00980F63 /* DuanZiadPC.h */,
 				0899691F1D27E74C00980F63 /* DuanZiadPC.m */,
+				08004BD01D2BAF1E0065AD0E /* ViewDislikeReasen.h */,
+				08004BD11D2BAF1E0065AD0E /* ViewDislikeReasen.m */,
 			);
 			name = DuanZi;
 			sourceTree = "<group>";
@@ -434,6 +447,10 @@
 		089969461D2A02EC00980F63 /* redimg */ = {
 			isa = PBXGroup;
 			children = (
+				08004BD31D2BB9BE0065AD0E /* dislike_not-selected@2x.png */,
+				08004BD41D2BB9BE0065AD0E /* dislike_not-selected@3x.png */,
+				08004BD51D2BB9BE0065AD0E /* dislike_selected@2x.png */,
+				08004BD61D2BB9BE0065AD0E /* dislike_selected@3x.png */,
 				089969571D2A10F800980F63 /* add_one@2x.png */,
 				089969581D2A10F800980F63 /* add_one@3x.png */,
 				089969531D2A036200980F63 /* moreicon_textpage_press@2x.png */,
@@ -575,8 +592,10 @@
 			files = (
 				087E67781D227BC000BB2340 /* Found@2x.png in Resources */,
 				087E67761D227BC000BB2340 /* Found_press@2x.png in Resources */,
+				08004BD91D2BB9BE0065AD0E /* dislike_selected@2x.png in Resources */,
 				085C45301D251BC3008B4A9D /* commenticon_textpage@3x.png in Resources */,
 				0817B5101D228241005CC8D7 /* defaulthead@2x.png in Resources */,
+				08004BD81D2BB9BE0065AD0E /* dislike_not-selected@3x.png in Resources */,
 				0899694D1D2A032400980F63 /* digdownicon_textpage_press@2x.png in Resources */,
 				0817B5111D228241005CC8D7 /* defaulthead@3x.png in Resources */,
 				085C45201D251485008B4A9D /* hoticon_textpage@3x.png in Resources */,
@@ -596,6 +615,7 @@
 				087E67851D227BF000BB2340 /* audit@3x.png in Resources */,
 				085C452F1D251BC3008B4A9D /* commenticon_textpage@2x.png in Resources */,
 				087E678C1D227C6900BB2340 /* newstab@2x.png in Resources */,
+				08004BD71D2BB9BE0065AD0E /* dislike_not-selected@2x.png in Resources */,
 				087E67771D227BC000BB2340 /* Found_press@3x.png in Resources */,
 				087E67571D2277DD00BB2340 /* Assets.xcassets in Resources */,
 				085C451F1D251485008B4A9D /* hoticon_textpage@2x.png in Resources */,
@@ -618,6 +638,7 @@
 				085C45331D251BE5008B4A9D /* moreicon_textpage@2x.png in Resources */,
 				0899694A1D2A030D00980F63 /* commenticon_textpage_press@3x.png in Resources */,
 				0899695A1D2A10F800980F63 /* add_one@3x.png in Resources */,
+				08004BDA1D2BB9BE0065AD0E /* dislike_selected@3x.png in Resources */,
 				089AB1D21D23C96C004E9D3E /* essence_label@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -696,6 +717,7 @@
 				089AB1C81D23948A004E9D3E /* JingHuaNext.m in Sources */,
 				089AB1C01D23948A004E9D3E /* JingHuaAutoClass.m in Sources */,
 				081228761D22BAA50093BF06 /* TableViewControllerGame.m in Sources */,
+				08004BD21D2BAF1E0065AD0E /* ViewDislikeReasen.m in Sources */,
 				089AB1C91D23948A004E9D3E /* JingHuaThumbImage.m in Sources */,
 				087E67551D2277DD00BB2340 /* DuanZi.xcdatamodeld in Sources */,
 				081228671D22BA0F0093BF06 /* TableViewControllerShiPin.m in Sources */,

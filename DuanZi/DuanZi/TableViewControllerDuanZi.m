@@ -17,6 +17,7 @@
 #import "DuanZiadPC.h"
 #import <MJRefresh.h>
 #import "UIColor+Hex.h"
+#import "ViewDislikeReasen.h"
 @interface TableViewControllerDuanZi ()
 {
     
@@ -31,6 +32,12 @@
     
     //点赞类型
     NSInteger commendType;    //0  点的是段子的彩或者赞    1点的是神评One的赞   2点的是神评Two的赞
+    
+    NSInteger indexOfRemovedCell;          //要删除的单元格的索引
+    
+    ViewDislikeReasen *_viewDislikeReasen;
+    
+    UIView *_viewTS;
 
 }
 @end
@@ -267,14 +274,17 @@
     [_cell.buttonCommendTwo addTarget:self action:@selector(commentCommendTwoClick:) forControlEvents:UIControlEventTouchUpInside];
     
     
-    //评论
     
+    // 删除按钮
+    _cell.buttonClose.tag = indexPath.row + 110;
+    [_cell.buttonClose addTarget:self action:@selector(dislikeClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //评论
     [_cell.buttonComment addTarget:self action:@selector(commentClick:) forControlEvents:UIControlEventTouchUpInside];
     
     //分享
-    
     [_cell.buttonShare addTarget:self action:@selector(shareClick:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     
     
     
@@ -551,7 +561,35 @@
     
 
 }
+//删除不喜欢的段子
+-(void)dislikeClick:(UIButton *)sender
+{
+    //数据源
+    NSDictionary *dictData = [_arrayData [sender.tag - 110] dictData];
 
+    DuanZiGroup *group = [DuanZiGroup modelObjectWithDictionary:dictData[@"group"]];
+    
+    NSArray *arrayDislikeReasen = group.dislikeReason;
+
+    NSLog(@"----------------%@",arrayDislikeReasen);
+    //创建弹框
+    _viewDislikeReasen = [[ViewDislikeReasen alloc]initWithArray:arrayDislikeReasen];
+    
+    _viewDislikeReasen.alpha = 0;
+    UIWindow *window = [[[UIApplication sharedApplication]delegate]window];
+    [window addSubview:_viewDislikeReasen];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        _viewDislikeReasen.alpha = 1;
+    }];
+    //确定删除方法
+    UIButton *buttonQuDing = [_viewDislikeReasen viewWithTag:10002];
+    indexOfRemovedCell = sender.tag - 110;
+    [buttonQuDing addTarget:self action:@selector(removeDuanZiCellClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+}
 -(void)commentClick:(UIButton *)sender
 {
     
@@ -655,8 +693,61 @@
     NSInteger commendCountTwo = digCountTwo + 1;
     _cell.labelCommendTwo.text = [NSString stringWithFormat:@"%ld",commendCountTwo];
 }
+//确定删除单元格方法
+-(void)removeDuanZiCellClick
+{
+    [_arrayData removeObjectAtIndex:indexOfRemovedCell];
+    [_arrayDataAd removeObjectAtIndex:indexOfRemovedCell];
+    //移除提示框的动画
+    [UIView animateWithDuration:0.3 animations:^{
+        _viewDislikeReasen.alpha = 0;
+    } completion:^(BOOL finished) {
+        [_viewDislikeReasen removeFromSuperview];
+    }];
 
-
+    [self.tableView reloadData];
+    
+    
+    //顶部提示栏动画
+    
+    NSLog(@"%f",self.view.frame.size.width);
+    
+    
+    _viewTS = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
+    _viewTS.backgroundColor = [UIColor colorWithHexString:@"#ff819f"];
+    _viewTS.alpha = 0.6;
+    UILabel *labelText = [[UILabel alloc]init];
+    labelText.center = _viewTS.center ;
+    labelText.text = @"我们会减少相关推荐的";
+    labelText.textAlignment = NSTextAlignmentCenter;
+    labelText.textColor = [UIColor whiteColor];
+    labelText.bounds = CGRectMake(0, 0, 200, 20);
+    labelText.font = [UIFont systemFontOfSize:13];
+    [_viewTS addSubview:labelText];
+    [self.view addSubview:_viewTS];
+    
+    //动画
+    //放大一下
+    [UIView animateWithDuration:0.5 animations:^{
+        _viewTS.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    } completion:^(BOOL finished) {
+        //动画缩小一下
+        [UIView animateWithDuration:0.5 animations:^{
+            _viewTS.transform = CGAffineTransformMakeScale(1, 1);
+        } completion:^(BOOL finished) {
+            //view 停顿一会儿
+            [self performSelector:@selector(viewTSRemoveClick) withObject:nil afterDelay:1];
+            
+            
+        }];
+        
+    }];
+}
+-(void)viewTSRemoveClick
+{
+    [_viewTS removeFromSuperview];
+    
+}
 @end
 
 
