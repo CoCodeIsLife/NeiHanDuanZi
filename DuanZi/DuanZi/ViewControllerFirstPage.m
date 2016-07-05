@@ -123,7 +123,7 @@
     for (int i = 0; i < _arrayItem.count; i++) {
         
         UIViewController *VC = [_arrayVC objectAtIndex:i];
-        VC.view.frame = CGRectMake(_scrollViewContent.frame.size.width * i ,0,_scrollViewContent.frame.size.width, _scrollViewContent.frame.size.height - 35);
+        VC.view.frame = CGRectMake(_scrollViewContent.frame.size.width * i ,0,self.view.frame.size.width, _scrollViewContent.frame.size.height - 35);
         [_scrollViewContent addSubview:VC.view];
         
         }

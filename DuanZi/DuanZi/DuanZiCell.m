@@ -95,11 +95,10 @@
         //赞
         _buttonCommendOne = [[UIButton alloc]init];
         [_viewCommentsOne addSubview:_buttonCommendOne];
-        [_buttonCommendOne setImage:[UIImage imageNamed:@"Praise_pop"] forState:UIControlStateNormal];
+        
         //赞个数
         _labelCommendOne = [[UILabel alloc]init];
         [_viewCommentsOne addSubview:_labelCommendOne];
-        _labelCommendOne.textColor = [UIColor colorWithHexString:@"#cccccc"];
         _labelCommendOne.font = [UIFont systemFontOfSize:10];
         
         //评论内容
