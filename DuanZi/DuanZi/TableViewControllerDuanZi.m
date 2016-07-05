@@ -25,6 +25,12 @@
     DuanZiCell *_cell ;
     NSMutableArray *_arrayClickCommend;
     NSMutableArray *_arrayClickCommentCommend;
+    
+    DuanZiComments *_commentsOne;
+    DuanZiComments *_commentsTwo;
+    
+    //点赞类型
+    NSInteger commendType;    //0  点的是段子的彩或者赞    1点的是神评One的赞   2点的是神评Two的赞
 
 }
 @end
@@ -121,16 +127,6 @@
     
     NSDictionary *dictData = pc.dictData;
     DuanZiGroup *group = [DuanZiGroup modelObjectWithDictionary:dictData[@"group"]];
-    //判断神评是否存在
-    DuanZiComments *commentsOne;
-    DuanZiComments *commentsTwo;
-    NSArray *arrayComments = dictData[@"comments"];
-    if (arrayComments.count == 1) {
-        commentsOne = [DuanZiComments modelObjectWithDictionary:arrayComments[0]];
-    }
-    if (arrayComments.count == 2) {
-        commentsTwo = [DuanZiComments modelObjectWithDictionary:arrayComments[1]];
-    }
     
 
     NSInteger type =[dictData[@"type"] integerValue];
@@ -195,17 +191,17 @@
     //被踩过
     if ([strCommend isEqualToString:@"2"]) {
         
-        [_cell.buttonCommend setImage:[UIImage imageNamed:@"digdownicon_textpage_press"] forState:UIControlStateNormal];
+        [_cell.buttonStep setImage:[UIImage imageNamed:@"digdownicon_textpage_press"] forState:UIControlStateNormal];
         
-        _cell.labelCommend.textColor = [UIColor colorWithHexString:@"#ff819f"];
+        _cell.labelStep.textColor = [UIColor colorWithHexString:@"#ff819f"];
         
         //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
-        NSInteger digCount = group.diggCount;
+        NSInteger buryCount = group.buryCount;
         // + 1
-        NSInteger commendCount = digCount + 1;
-        _cell.labelCommend.text = [NSString stringWithFormat:@"%ld",commendCount];
-        if (commendCount>10000) {
-            _cell.labelCommend.text = [NSString stringWithFormat:@"%.1f万",commendCount/10000.0];
+        NSInteger buryCountJia = buryCount + 1;
+        _cell.labelStep.text = [NSString stringWithFormat:@"%ld",buryCountJia];
+        if (buryCountJia>10000) {
+            _cell.labelStep.text = [NSString stringWithFormat:@"%.1f万",buryCountJia/10000.0];
         }
         
     }
@@ -225,64 +221,25 @@
     //神评One赞过
     if ([_arrayClickCommentCommend[indexPath.row] isEqualToString:@"1"]) {
         
-        [_cell.buttonCommendOne setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
-        
-        _cell.labelCommendOne.textColor = [UIColor colorWithHexString:@"#ff819f"];
-        
-        //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
-        NSInteger digCountOne = commentsOne.diggCount;
-        // + 1
-        NSInteger commendCountOne = digCountOne + 1;
-        _cell.labelCommendOne.text = [NSString stringWithFormat:@"%ld",commendCountOne];
-        
+        [self CommentsCommendOneRed];
+
     }
     //神评Two赞过
     if ([_arrayClickCommentCommend[indexPath.row] isEqualToString:@"2"]) {
         
-        [_cell.buttonCommendTwo setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
-        
-        _cell.labelCommendTwo.textColor = [UIColor colorWithHexString:@"#ff819f"];
-        
-        //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
-        NSInteger digCountTwo = commentsTwo.diggCount;
-        // + 1
-        NSInteger commendCountTwo = digCountTwo + 1;
-        _cell.labelCommend.text = [NSString stringWithFormat:@"%ld",commendCountTwo];
+        [self commentCommendTwoRed];
 
     }
     //如果        两条        神评都被赞过
     if ([_arrayClickCommentCommend[indexPath.row] isEqualToString:@"3"]) {
-        //*****************    神评One
-        [_cell.buttonCommendOne setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
         
-        _cell.labelCommendOne.textColor = [UIColor colorWithHexString:@"#ff819f"];
-        
-        //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
-        NSInteger digCountOne = commentsOne.diggCount;
-        // + 1
-        NSInteger commendCountOne = digCountOne + 1;
-        _cell.labelCommendOne.text = [NSString stringWithFormat:@"%ld",commendCountOne];
-        
-        
-        //**********************神评Two
-        [_cell.buttonCommendTwo setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
-        
-        _cell.labelCommendTwo.textColor = [UIColor colorWithHexString:@"#ff819f"];
-        
-        //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
-        NSInteger digCountTwo = commentsTwo.diggCount;
-        // + 1
-        NSInteger commendCountTwo = digCountTwo + 1;
-        _cell.labelCommend.text = [NSString stringWithFormat:@"%ld",commendCountTwo];
+        [self CommentsCommendOneRed];
+        [self commentCommendTwoRed];
         
     }
-
-   
     
   /*
-   
    单元格上的button的点击事件
-   
    */
     
     //赞
@@ -291,7 +248,6 @@
     _cell.viewBig.tag = indexPath.row + 20;
     [_cell.buttonCommend addTarget:self action:@selector(commendClick:) forControlEvents:UIControlEventTouchUpInside];
     
-
     //踩
     _cell.buttonStep.tag = indexPath.row + 30;
     _cell.labelStep.tag = indexPath.row + 40;
@@ -339,8 +295,9 @@
     
     //如果被赞过了   就弹出提示框  赞过了   //0 ,1 赞过 ,2 踩过
     if (![_arrayClickCommend[sender.tag] isEqualToString:@"0"]) {
+        commendType = 0;
         //弹出动画
-        [self alertShowWithTag:sender.tag];
+        [self alertShowWithTag:sender.tag withType:commendType];
         
         return;
     }
@@ -396,8 +353,9 @@
     
     //如果被赞或者被踩过了   就弹出提示框  赞/踩过了
     if (![_arrayClickCommend[sender.tag - 30] isEqualToString:@"0"]) {
+        commendType = 0;
         //弹出动画
-        [self alertShowWithTag:sender.tag - 30];
+        [self alertShowWithTag:sender.tag - 30 withType:commendType];
         return;
     }
     
@@ -445,14 +403,31 @@
 //神评one 赞
 -(void)commentCommendOneClick:(UIButton *)sender
 {
-    //获得数据源
-    NSDictionary *dictData = [_arrayData [sender.tag - 50] dictData];
-//    DuanZiGroup *group = [DuanZiGroup modelObjectWithDictionary:dictData[@"group"]];
+    //数据源
+    DuanZiPC *pc = _arrayData[sender.tag - 50];
+    
+    NSDictionary *dictData = pc.dictData;
+    
+    //判断神评是否存在
+    _commentsOne = nil;
+    _commentsTwo = nil;
+    NSArray *arrayComments = dictData[@"comments"];
+    if (arrayComments.count == 1) {
+        _commentsOne = [DuanZiComments modelObjectWithDictionary:arrayComments[0]];
+    }
+    if (arrayComments.count == 2) {
+        _commentsOne = [DuanZiComments modelObjectWithDictionary:arrayComments[0]];
+        _commentsTwo = [DuanZiComments modelObjectWithDictionary:arrayComments[1]];
+    }
+
+    
+    
     
     //如果被赞过了   就弹出提示框  赞过了   //0 ,1 赞过 ,2 赞过  3  都赞过
-    if (![_arrayClickCommentCommend[sender.tag-50] isEqualToString:@"0"]) {
+    if ([_arrayClickCommentCommend[sender.tag-50] isEqualToString:@"1"]||[_arrayClickCommentCommend[sender.tag-50] isEqualToString:@"3"]) {
+        commendType = 1;
         //弹出动画
-        [self alertShowWithTag:sender.tag - 50];
+        [self alertShowWithTag:sender.tag - 50 withType:commendType];
         
         return;
     }
@@ -465,16 +440,15 @@
     labelCommend.textColor = [UIColor colorWithHexString:@"#ff819f"];
     UIView *viewcommentOne = [self.view viewWithTag:sender.tag + 20];
     
-    DuanZiComments *commentsOne = [DuanZiComments modelObjectWithDictionary:dictData[@"comments"][0]];
-    
-    
     //    获取赞数
-    NSInteger digCount = commentsOne.diggCount;
-    NSLog(@"--------------------%ld",(long)digCount);
+    NSInteger digCountOne = _commentsOne.diggCount;
+    NSLog(@"--------------------%ld",(long)digCountOne);
     // + 1
-    NSInteger commendCount = digCount + 1;
+    NSInteger commendCountOne = digCountOne + 1;
     
-    labelCommend.text = [NSString stringWithFormat:@"%ld",commendCount];
+    labelCommend.text = [NSString stringWithFormat:@"%ld",commendCountOne];
+    
+    
         
     // 点赞 +1 的动画
     UIImageView *ImgViewAddOne = [[UIImageView alloc]initWithFrame:CGRectMake(labelCommend.frame.origin.x - 5, labelCommend.frame.origin.y - 10, 14, 10)];
@@ -502,36 +476,51 @@
 //神评Two赞
 -(void)commentCommendTwoClick:(UIButton *)sender
 {
-    //获得数据源
-    NSDictionary *dictData = [_arrayData [sender.tag - 80] dictData];
-    //    DuanZiGroup *group = [DuanZiGroup modelObjectWithDictionary:dictData[@"group"]];
+    //数据源
+    DuanZiPC *pc = _arrayData[sender.tag - 80];
+    
+    NSDictionary *dictData = pc.dictData;
+    
+    //判断神评是否存在
+    _commentsOne = nil;
+    _commentsTwo = nil;
+    NSArray *arrayComments = dictData[@"comments"];
+    if (arrayComments.count == 1) {
+        _commentsOne = [DuanZiComments modelObjectWithDictionary:arrayComments[0]];
+    }
+    if (arrayComments.count == 2) {
+        _commentsOne = [DuanZiComments modelObjectWithDictionary:arrayComments[0]];
+        _commentsTwo = [DuanZiComments modelObjectWithDictionary:arrayComments[1]];
+    }
+
+    
+    
     
     //如果被赞过了   就弹出提示框  赞过了   //0 ,1 赞过 ,2 赞过  3  都赞过
     if ([_arrayClickCommentCommend[sender.tag-80] isEqualToString:@"2"]||[_arrayClickCommentCommend[sender.tag-80] isEqualToString:@"3"]) {
+        commendType = 2;
         //弹出动画
-        [self alertShowWithTag:sender.tag - 50];
+        [self alertShowWithTag:sender.tag - 80 withType:commendType];
         
         return;
     }
-    //改变  arraycommentCommend数组 的值
+    //改变  arrayClickcommentCommend数组 的值
     
     if ([_arrayClickCommentCommend[sender.tag-80] isEqualToString:@"1"] ) {
         _arrayClickCommentCommend[sender.tag - 80] = @"3";
     }
     else{
-        [_arrayClickCommentCommend[sender.tag-80] isEqualToString:@"2"];
+        _arrayClickCommentCommend[sender.tag-80] = @"2";
     }
     
     [sender setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
     UILabel *labelCommend = [self.view viewWithTag:sender.tag + 10];
     labelCommend.textColor = [UIColor colorWithHexString:@"#ff819f"];
     UIView *viewcommentOne = [self.view viewWithTag:sender.tag + 20];
-    
-    DuanZiComments *commentsOne = [DuanZiComments modelObjectWithDictionary:dictData[@"comments"][0]];
-    
+
     
     //    获取赞数
-    NSInteger digCount = commentsOne.diggCount;
+    NSInteger digCount = _commentsTwo.diggCount;
     NSLog(@"--------------------%ld",(long)digCount);
     // + 1
     NSInteger commendCount = digCount + 1;
@@ -573,7 +562,7 @@
     
 }
 //重复点击赞踩按钮时候动画效果
--(void)alertShowWithTag:(NSInteger)tag
+-(void)alertShowWithTag:(NSInteger)tag withType:(NSInteger)commentType;
 {
     UIWindow *window = [[[UIApplication sharedApplication]delegate]window];
     UIView *viewDigged = [[UIView alloc]init];
@@ -592,11 +581,34 @@
     [window addSubview:lableDigged];
     lableDigged.textColor = [UIColor whiteColor];
     lableDigged.alpha = 0.5;
-    
     lableDigged.text = @"您已踩过";
-    if ([_arrayClickCommend[tag]isEqualToString:@"1"]) {
-        lableDigged.text = @"您已顶过";
+    
+    
+//    判断点击的是神评的赞  还是段子的赞
+    //段子的赞 踩
+    if (commendType == 0) {
+        if ([_arrayClickCommend[tag]isEqualToString:@"1"]) {
+            lableDigged.text = @"您已顶过";
+        }
+
     }
+    //神评one
+    else if (commendType == 1)
+    {
+        //神评One的赞
+        if ([_arrayClickCommentCommend[tag]isEqualToString:@"1"] ||[_arrayClickCommentCommend[tag]isEqualToString:@"3"]) {
+            lableDigged.text = @"您已顶过";
+        }
+    }
+    else if (commendType == 2)
+    {
+        //神评Two的赞
+        if ([_arrayClickCommentCommend[tag]isEqualToString:@"2"] ||[_arrayClickCommentCommend[tag]isEqualToString:@"3"]) {
+            lableDigged.text = @"您已顶过";
+        }
+
+    }
+    
     
     //弹出提示框的动画
     [UIView animateWithDuration:1 animations:^{
@@ -615,8 +627,34 @@
     }];
 
 }
+//点过赞神评One的重新加载单元格时候  数量+1 颜色 红色
+-(void)CommentsCommendOneRed
+{
+    [_cell.buttonCommendOne setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
+    
+    _cell.labelCommendOne.textColor = [UIColor colorWithHexString:@"#ff819f"];
+    
+    //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
+    NSInteger digCountOne = _commentsOne.diggCount;
+    // + 1
+    NSInteger commendCountOne = digCountOne + 1;
+    _cell.labelCommendOne.text = [NSString stringWithFormat:@"%ld",commendCountOne];
+    
 
-
+}
+//赞过神评Two 加载时候显红色
+-(void)commentCommendTwoRed
+{
+    [_cell.buttonCommendTwo setImage:[UIImage imageNamed:@"digupicon_textpage_press"] forState:UIControlStateNormal];
+    
+    _cell.labelCommendTwo.textColor = [UIColor colorWithHexString:@"#ff819f"];
+    
+    //赞数     被点过赞的再次 加载单元格 赞数 还是 + 1 的
+    NSInteger digCountTwo = _commentsTwo.diggCount;
+    // + 1
+    NSInteger commendCountTwo = digCountTwo + 1;
+    _cell.labelCommendTwo.text = [NSString stringWithFormat:@"%ld",commendCountTwo];
+}
 
 
 @end
