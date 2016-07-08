@@ -22,16 +22,20 @@
         
         //用户名
         _lableAdName = [[UILabel alloc]init];
+        _lableAdName.textColor = [UIColor colorWithHexString:@"#666666"];
+        _lableAdName.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:_lableAdName];
         
         //文字内容
         _lableAdContent = [[UILabel alloc]init];
         _lableAdContent.numberOfLines = 0;
+        _lableAdContent.font = [UIFont systemFontOfSize:15];
+        _lableAdContent.textColor = [UIColor colorWithHexString:@"#333333"];
         [self.contentView addSubview:_lableAdContent];
         
         //图片
         _imageViewAd = [[UIImageView alloc]init];
-        _imageViewAd.backgroundColor = [UIColor redColor];
+//        _imageViewAd.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:_imageViewAd];
         
         //推广

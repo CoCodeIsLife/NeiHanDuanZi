@@ -15,7 +15,6 @@
 
 -(id)initWithArray:(NSArray *)array
 {
-    NSArray *arrayData = [[NSArray alloc]initWithArray:array];
     self=[super init];
     
     if (self)
@@ -51,9 +50,9 @@
         NSInteger gap = 10;
         NSInteger labelH = 25;
         CGRect rectL;
-        for (int i = 0; i< arrayData.count; i++) {
+        for (int i = 0; i< array.count; i++) {
 //            NSLog(@"%@",arrayData);
-            NSDictionary *dict =arrayData[i];
+            NSDictionary *dict =array[i];
 //            NSLog(@"+==================+++====++++++++++++++%@",dict);
 //            NSLog(@"%@",[dict valueForKey:@"title"]);
 

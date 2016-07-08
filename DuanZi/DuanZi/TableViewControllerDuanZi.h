@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class TableViewControllerDuanZi;
 
 @interface TableViewControllerDuanZi : UITableViewController
+
 @property (nonatomic,strong)NSMutableArray *arrayData;
 @property (nonatomic,strong)NSMutableArray *arrayDataAd;
 @end

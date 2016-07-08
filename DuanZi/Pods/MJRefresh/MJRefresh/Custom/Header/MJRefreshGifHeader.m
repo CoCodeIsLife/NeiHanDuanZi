@@ -62,7 +62,7 @@
 
 - (void)setImages:(NSArray *)images forState:(MJRefreshState)state 
 { 
-    [self setImages:images duration:images.count * 0.1 forState:state]; 
+    [self setImages:images duration:images.count * 0.3 forState:state];
 }
 
 #pragma mark - 实现父类的方法

@@ -18,25 +18,20 @@
 #import <MJRefresh.h>
 #import "UIColor+Hex.h"
 #import "ViewDislikeReasen.h"
+#import "ViewControllerDZWebView.h"
 @interface TableViewControllerDuanZi ()
 {
-    
     DuanZiBaseClass *_model;
     DuanZiadCell *_adCell;
     DuanZiCell *_cell ;
     NSMutableArray *_arrayClickCommend;
     NSMutableArray *_arrayClickCommentCommend;
-    
     DuanZiComments *_commentsOne;
     DuanZiComments *_commentsTwo;
-    
     //点赞类型
     NSInteger commendType;    //0  点的是段子的彩或者赞    1点的是神评One的赞   2点的是神评Two的赞
-    
     NSInteger indexOfRemovedCell;          //要删除的单元格的索引
-    
     ViewDislikeReasen *_viewDislikeReasen;
-    
     UIView *_viewTS;
 
 }
@@ -50,11 +45,12 @@
 
     //取消单元格分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    //设置代理
     
     //初始化两个数组
     _arrayData = [[NSMutableArray alloc]init];
     _arrayDataAd = [[NSMutableArray alloc]init];
+    
     //初始化数组 记录点赞的状态
     _arrayClickCommend = [[NSMutableArray alloc]init];
     
@@ -62,13 +58,50 @@
     _arrayClickCommentCommend = [[NSMutableArray alloc]init];
 
     //请求数据
+    [self requestData];
     
+    //  **************             下拉刷新**************刷新数据
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    //刷新动画  图片数据
+    NSArray *idleImages = @[[UIImage imageNamed:@"refresh_head"]];
+    NSArray *pullingImages = @[[UIImage imageNamed:@"refresh_head_2"]];
+    NSArray *refreshingImages = @[[UIImage imageNamed:@"refresh_head_3"],[UIImage imageNamed:@"refresh_head_4"]];
+    
+    //隐藏时间 文字 只显示图片
+    header.lastUpdatedTimeLabel.hidden = YES;
+    // Hide the status
+    header.stateLabel.hidden = YES;
+    [header setImages:idleImages forState:MJRefreshStateIdle];
+    [header setImages:pullingImages forState:MJRefreshStatePulling];
+    [header setImages:refreshingImages forState:MJRefreshStateRefreshing];
+    self.tableView.mj_header = header;
+    
+    //***********************          上拉加载        *************************
+    MJRefreshAutoGifFooter *footer = [MJRefreshAutoGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//    footer .stateLabel.hidden = YES;
+    self.tableView.mj_footer = footer;
+    
+}
+
+//下拉加载数据
+-(void)loadNewData
+{
+    //刷新
+    [_arrayDataAd removeAllObjects];
+    [_arrayData removeAllObjects];
+    [self requestData];
+    
+}
+//上拉加载
+-(void)loadMoreData
+{
     [self requestData];
     
 }
 //请求数据
 -(void)requestData
 {
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     [manager GET:@"http://ic.snssdk.com/neihan/stream/mix/v1/?content_type=-102&iid=4685042540&os_version=10.0&os_api=18&app_name=joke_essay&channel=App%20Store&device_platform=iphone&idfa=00000000-0000-0000-0000-000000000000&live_sdk_version=120&vid=E487C7F6-66AC-40D4-A162-5A6533C8D26D&openudid=8085611edbc21201b3a3f4e7773aec76226ef213&device_type=iPhone8,4&version_code=5.3.0&ac=WIFI&screen_width=640&device_id=20047815025&aid=7&city=%E6%B2%B3%E5%8D%97%E7%9C%81&content_type=-102&count=30&essence=1&latitude=34.70918977610658&longitude=113.7607375587819&message_cursor=0&min_time=1467205882&mpic=1" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -97,6 +130,9 @@
         
         //单元格的协议方法和请求数据同时进行  所以执行协议方法的时候数据还没请求出来,   因此要刷新tableVeiw
         [self.tableView reloadData];
+        //结束刷新
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         NSLog(@"段子获取数据成功");
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -737,17 +773,29 @@
         } completion:^(BOOL finished) {
             //view 停顿一会儿
             [self performSelector:@selector(viewTSRemoveClick) withObject:nil afterDelay:1];
-            
-            
         }];
-        
     }];
 }
+//停顿一秒然后移除提示框
 -(void)viewTSRemoveClick
 {
     [_viewTS removeFromSuperview];
     
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dictData = [_arrayData[indexPath.row] dictData];
+    
+    DuanZiGroup *group = [DuanZiGroup modelObjectWithDictionary:dictData[@"group"]];
+    NSString *urlstr = group.shareUrl;
+    
+   
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"DuanZiCell" object:urlstr];
+    
+    
+}
+
 @end
 
 

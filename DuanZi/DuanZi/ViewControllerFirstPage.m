@@ -16,6 +16,7 @@
 #import "TableViewControllerJingHua.h"
 #import "TableViewControllerSameCity.h"
 #import "TableViewControllerGame.h"
+#import "ViewControllerDZWebView.h"
 @interface ViewControllerFirstPage ()<UIScrollViewDelegate>
 {
     NSArray *_arrayItem ;
@@ -25,7 +26,7 @@
     int _currentPage;
     NSArray *_arrayVC;
     
-    TableViewControllerJingHua *_VCJingHua;
+//    TableViewControllerJingHua *_VCJingHua;
     
     
 }
@@ -38,6 +39,8 @@
     [self jieMianBuJu];
     self.automaticallyAdjustsScrollViewInsets =NO;
     self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
+    //注册通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushToWebViewDuanZi:) name:@"DuanZiCell" object:nil];
     
 
 }
@@ -107,13 +110,13 @@
     _scrollViewContent.delegate = self;
     _scrollViewContent.showsHorizontalScrollIndicator = NO;
     
-
+//    首页的界面们
     TableViewControllerZhiBo *_VCZhiBo = [[TableViewControllerZhiBo alloc]init];
     TableViewControllerTuiJian *_VCTuiJian = [[TableViewControllerTuiJian alloc]init];
     TableViewControllerShiPin *_VCShiPin = [[TableViewControllerShiPin alloc]init];
     TableViewControllerPic *_VCPic = [[TableViewControllerPic alloc]init];
     TableViewControllerDuanZi *_VCDuanZi = [[TableViewControllerDuanZi alloc]init];
-    _VCJingHua = [[TableViewControllerJingHua alloc]init];
+    TableViewControllerJingHua *_VCJingHua = [[TableViewControllerJingHua alloc]init];
     TableViewControllerSameCity *_VCSameCity = [[TableViewControllerSameCity alloc]init];
     TableViewControllerGame *_VCGame = [[TableViewControllerGame alloc]init];
     
@@ -127,6 +130,7 @@
         [_scrollViewContent addSubview:VC.view];
         
         }
+    
     
     //添加    关注试图
     _ViewFocus = [[UIView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64-49)];
@@ -204,9 +208,11 @@
 {
     NSLog(@"+++++++++");
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)pushToWebViewDuanZi:(NSNotification *)notifit
+{
+    ViewControllerDZWebView *VCDuanZiWebView = [[ViewControllerDZWebView alloc]init];
+    VCDuanZiWebView.urlStr = notifit.object;
+    [self.navigationController pushViewController:VCDuanZiWebView animated:YES];
 }
 
 
