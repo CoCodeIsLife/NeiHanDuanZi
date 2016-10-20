@@ -57,10 +57,8 @@
         [self.contentView addSubview:_viewAdColor];
         
     }
-    
     return self;
 }
-
 
 -(void)setAdPc:(DuanZiadPC *)adPc
 {

@@ -394,7 +394,6 @@
     
     //赞数
     _labelCommendTwo.text = [NSString stringWithFormat:@"%.0f", commentsTwo.diggCount];
-    
 }
 
 - (void)awakeFromNib {

@@ -187,8 +187,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    
-    
     if (indexPath.row == 0) {
         
         static NSString *cellIdentifier1 = @"cell1";
